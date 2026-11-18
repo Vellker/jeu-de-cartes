@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Académie des Monstres - Jeu de Cartes 2D</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- BARRE SUPÉRIEURE -->
+  <header class="top-bar">
+    <div class="header-info">
+      <h1>🏫 Académie des Monstres</h1>
+      <p>Déplacements : <b>Flèches / WASD</b> • S'asseoir / Se lever : <b>E</b> • Rejoignez le <span class="bot-tag">BOT</span> à la Table #1</p>
+    </div>
+    <button id="btn-deck-editor" class="btn-primary">🃏 Éditeur de Deck (30/30)</button>
+  </header>
+
+  <!-- CONTENEUR PRINCIPAL DU JEU -->
+  <main class="game-wrapper">
+    <canvas id="classroom-canvas" width="900" height="600"></canvas>
+
+    <!-- BULLE D'INDICATION TOUCHE E -->
+    <div id="interaction-prompt" class="prompt-badge hidden">
+      Appuyez sur [E] pour vous asseoir
+    </div>
+
+    <!-- MODALE : ÉDITEUR DE DECK -->
+    <section id="deck-modal" class="overlay-modal hidden">
+      <div class="modal-header">
+        <h2>Construisez votre Deck (<span id="deck-count">30</span> / 30 cartes)</h2>
+        <button id="btn-close-deck" class="btn-success">Valider et Fermer</button>
+      </div>
+      <div id="deck-grid" class="cards-catalog-grid">
+        <!-- Les cartes sont générées ici par script.js -->
+      </div>
+    </section>
+
+    <!-- PLATEAU DE DUEL DE CARTES -->
+    <section id="duel-modal" class="overlay-modal duel-layout hidden">
+
+      <!-- ZONE ADVERSAIRE (BOT) -->
+      <div id="bot-bar-target" class="player-bar bot-bar">
+        <div class="stats-group">
+          <span class="player-name bot-name">🤖 Élève Bot</span>
+          <span id="bot-hp" class="badge-hp">❤️ 10 PV</span>
+          <span id="bot-mana" class="badge-mana">💧 1/1 PM</span>
+          <span id="bot-hand-count" class="text-muted">Main : 3</span>
+        </div>
+        <button id="btn-quit-duel" class="btn-secondary">Abandonner et se lever</button>
+      </div>
+
+      <!-- TERRAIN DU BOT EN 3 ZONES -->
+      <div class="board-zone">
+        <div class="board-subzone">
+          <span class="subzone-title">En attente (Gauche)</span>
+          <div id="bot-zone-summoning" class="subzone-cards"></div>
+        </div>
+        <div class="board-subzone">
+          <span class="subzone-title">Prêts (Milieu)</span>
+          <div id="bot-zone-ready" class="subzone-cards"></div>
+        </div>
+        <div class="board-subzone">
+          <span class="subzone-title">Utilisés (Droite)</span>
+          <div id="bot-zone-used" class="subzone-cards"></div>
+        </div>
+      </div>
+
+      <!-- JOURNAL D'ACTION & BOUTONS DE PHASE -->
+      <div class="action-banner">
+        <span id="duel-log">Tour 1 : Vous commencez avec 1 PM.</span>
+        <div id="action-buttons">
+          <button id="btn-take-damage" class="btn-danger hidden">Encaisser les dégâts</button>
+          <button id="btn-end-turn" class="btn-primary">Fin du tour ⏭️</button>
+        </div>
+      </div>
+
+      <!-- TERRAIN DU JOUEUR EN 3 ZONES -->
+      <div class="board-zone">
+        <div class="board-subzone">
+          <span class="subzone-title">En attente (Gauche)</span>
+          <div id="player-zone-summoning" class="subzone-cards"></div>
+        </div>
+        <div class="board-subzone">
+          <span class="subzone-title">Prêts (Milieu)</span>
+          <div id="player-zone-ready" class="subzone-cards"></div>
+        </div>
+        <div class="board-subzone">
+          <span class="subzone-title">Utilisés (Droite)</span>
+          <div id="player-zone-used" class="subzone-cards"></div>
+        </div>
+      </div>
+
+      <!-- MAIN DU JOUEUR -->
+      <div class="player-bar user-bar">
+        <div class="player-profile">
+          <span class="player-name user-name">🎓 Vous</span>
+          <span id="player-hp" class="badge-hp">❤️ 10 PV</span>
+          <span id="player-mana" class="badge-mana">💧 1/1 PM</span>
+          <span id="player-deck-count" class="text-muted">Pioche : 27</span>
+        </div>
+        <div id="player-hand" class="hand-zone"></div>
+      </div>
+
+      <!-- ÉCRAN DE FIN DE PARTIE -->
+      <div id="gameover-screen" class="gameover-overlay hidden">
+        <h2 id="gameover-title">🏆 VICTOIRE !</h2>
+        <p id="gameover-desc">Vous avez vaincu votre adversaire.</p>
+        <button id="btn-return-class" class="btn-primary btn-large">Retourner dans la salle de classe</button>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
